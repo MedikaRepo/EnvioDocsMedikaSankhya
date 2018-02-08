@@ -187,11 +187,11 @@ public class MainClass implements AcaoRotinaJava
 			{
 				if(ExecutaComandoNoBanco("SELECT CTT.EMAIL FROM AD_EMAILSENVIODOCSMEDIKA ADE "
 						+ "INNER JOIN TGFCTT CTT ON (CTT.CODPARC=ADE.CODPARC AND CTT.CODCONTATO=ADE.CODCONTATO) "
-						+ " WHERE CODENVIODOCSMEDIKA="+codEnvioDocsMedika, "select")!=null)
+						+ " WHERE CODENVIODOCSMEDIKA="+codEnvioDocsMedika+" AND ADE.CODPARC="+codParc, "select")!=null)
 				{
 					destinatarios=ExecutaComandoNoBanco("SELECT CTT.EMAIL FROM AD_EMAILSENVIODOCSMEDIKA ADE "
 							+ "INNER JOIN TGFCTT CTT ON (CTT.CODPARC=ADE.CODPARC AND CTT.CODCONTATO=ADE.CODCONTATO) "
-							+ " WHERE CODENVIODOCSMEDIKA="+codEnvioDocsMedika, "select");	
+							+ " WHERE CODENVIODOCSMEDIKA="+codEnvioDocsMedika+" AND ADE.CODPARC="+codParc, "select");	
 				}
 			}catch(Exception e1)
 			{
@@ -221,13 +221,13 @@ public class MainClass implements AcaoRotinaJava
 						+ " INNER JOIN AD_ANEXOSENVIODOCSMEDIKA ADA "
 						+ " ON ADA.CODENVIODOCSMEDIKA=ADE.CODENVIODOCSMEDIKA"
 						+ " INNER JOIN AD_DOCSMEDIKA ADM ON ADM.CODDOCSMEDIKA=ADA.CODDOCSMEDIKA"
-						+ " WHERE ADE.CODENVIODOCSMEDIKA="+codEnvioDocsMedika, "select")!=null)
+						+ " WHERE ADE.CODENVIODOCSMEDIKA="+codEnvioDocsMedika+" AND ADE.CODPARC="+codParc, "select")!=null)
 				{
 					anexos=ExecutaComandoNoBanco("SELECT ADM.ARQUIVO FROM AD_ENVIODOCSMEDIKA ADE"
 							+ " INNER JOIN AD_ANEXOSENVIODOCSMEDIKA ADA "
 							+ " ON ADA.CODENVIODOCSMEDIKA=ADE.CODENVIODOCSMEDIKA"
 							+ " INNER JOIN AD_DOCSMEDIKA ADM ON ADM.CODDOCSMEDIKA=ADA.CODDOCSMEDIKA"
-							+ " WHERE ADE.CODENVIODOCSMEDIKA="+codEnvioDocsMedika, "select");
+							+ " WHERE ADE.CODENVIODOCSMEDIKA="+codEnvioDocsMedika+" AND ADE.CODPARC="+codParc, "select");
 				}
 
 				//Seleciona os nomes dos arquivos para os anexos
@@ -235,17 +235,17 @@ public class MainClass implements AcaoRotinaJava
 						+ " INNER JOIN AD_ANEXOSENVIODOCSMEDIKA ADA "
 						+ " ON ADA.CODENVIODOCSMEDIKA=ADE.CODENVIODOCSMEDIKA"
 						+ " INNER JOIN AD_DOCSMEDIKA ADM ON ADM.CODDOCSMEDIKA=ADA.CODDOCSMEDIKA"
-						+ " WHERE ADE.CODENVIODOCSMEDIKA="+codEnvioDocsMedika, "select")!=null)
+						+ " WHERE ADE.CODENVIODOCSMEDIKA="+codEnvioDocsMedika+" AND ADE.CODPARC="+codParc, "select")!=null)
 				{
 					nomes=ExecutaComandoNoBanco("SELECT ADM.DESCRICAO FROM AD_ENVIODOCSMEDIKA ADE"
 							+ " INNER JOIN AD_ANEXOSENVIODOCSMEDIKA ADA "
 							+ " ON ADA.CODENVIODOCSMEDIKA=ADE.CODENVIODOCSMEDIKA"
 							+ " INNER JOIN AD_DOCSMEDIKA ADM ON ADM.CODDOCSMEDIKA=ADA.CODDOCSMEDIKA"
-							+ " WHERE ADE.CODENVIODOCSMEDIKA="+codEnvioDocsMedika, "select");	
+							+ " WHERE ADE.CODENVIODOCSMEDIKA="+codEnvioDocsMedika+" AND ADE.CODPARC="+codParc, "select");	
 				}
 
 
-				for(int i=0; i<anexos.length;i++)
+				for(int i=0; i<anexos.length-1;i++)
 				{
 					if (anexos[i]!=null)
 					{
@@ -274,7 +274,7 @@ public class MainClass implements AcaoRotinaJava
 				
 				contexto.setMensagemRetorno(mensagem.toString());
 
-				ExecutaComandoNoBanco("UPDATE AD_ENVIODOCSMEDIKA SET DHENVIO=GETDATE() WHERE CODENVIODOCSMEDIKA="+codEnvioDocsMedika, "alter");
+				ExecutaComandoNoBanco("UPDATE AD_ENVIODOCSMEDIKA SET DHENVIO=GETDATE() WHERE CODENVIODOCSMEDIKA="+codEnvioDocsMedika+" AND CODPARC="+codParc, "alter");
 
 			} catch (UnsupportedEncodingException e1)
 			{
@@ -300,7 +300,7 @@ public class MainClass implements AcaoRotinaJava
 				"<br/><br/>"+nomeVend+
 				" - Tel:(31) 3688-1901 Ramal:"+ramalVend+" - Equipe de Vendas"+
 				"<br><br><HR WIDTH=100% style="+"\"border:1px solid #191970;"+
-				"\"><img src="+"\"http://www.medika.com.br/wp-content/uploads/2016/05/logo-medika.png"+
+				"\"><img src="+"\"https://static.wixstatic.com/media/e2601a_be5e1a3b59244509bd59709b1d78733c~mv2.png/v1/fill/w_251,h_104,al_c,usm_0.66_1.00_0.01/e2601a_be5e1a3b59244509bd59709b1d78733c~mv2.png"+
 				"\"><br><br>Medika, qualidade em saúde. - <a href="+"\"http://www.medika.com.br"+
 				"\">www.medika.com.br</a><br>"+
 				"<HR WIDTH=100% style="+"\"border:1px solid #191970;"+"\">"+
